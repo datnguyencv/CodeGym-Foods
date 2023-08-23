@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quản lý Nhân viên</title>
+    <div th:fragment="head-list">
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/mdi/css/materialdesignicons.min.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/css/vendor.bundle.base.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/jvectormap/jquery-jvectormap.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/flag-icon-css/css/flag-icon.min.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/owl-carousel-2/owl.carousel.min.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/owl-carousel-2/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/style.css}">
+        <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.png}"/>
+        <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.png}"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+        <style>
+            * {
+                font-family: Roboto
+            }
+
+            .table td {
+                font-size: 16px;
+                color: white;
+                text-align: center;
+            }
+
+            .table thead th {
+                font-size: 18px;
+                color: sandybrown;
+                text-align: center;
+            }
+
+
+            /*Đổi màu paging + css*/
+            .btn,
+            .btn:link,
+            .btn:visited {
+                text-decoration: none;
+                padding: 7px 15px;
+                display: inline-block;
+                border-radius: 50px;
+                font-size: 13px;
+            }
+
+            .btn:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 20px green;
+            }
+
+            .active {
+                outline: none;
+                transform: translateY(-1px);
+                box-shadow: 0 5px 10px whitesmoke;
+            }
+
+            .profile-name {
+                box-shadow: 0 5px 20px green;
+                background-color: darkgreen;
+                font-family: cursive;
+                border-radius: 50%;
+            }
+
+            .preview-item-content {
+                transition: transform 0.2s ease-in-out;
+            }
+
+
+            /*Đổi màu paging + css*/
+            .btn,
+            .btn:link,
+            .btn:visited {
+                text-decoration: none;
+                padding: 7px 15px;
+                display: inline-block;
+                border-radius: 50px;
+                font-size: 13px;
+            }
+
+            .btn:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 20px green;
+            }
+
+            .active {
+                outline: none;
+                transform: translateY(-1px);
+                box-shadow: 0 5px 10px whitesmoke;
+            }
+
+            .profile-name {
+                box-shadow: 0 5px 20px green;
+                background-color: darkgreen;
+                font-family: cursive;
+                border-radius: 50%;
+            }
+
+            .preview-item-content {
+                transition: transform 0.2s ease-in-out;
+            }
+
+        </style>
+    </div>
+</head>
+<body>
+<div th:fragment="nav-top">
+    <nav class="navbar p-0 fixed-top d-flex flex-row">
+        <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo-mini" href="/home/success"><img alt="logo"
+                                                                              src="assets/images/logo-mini.png"/></a>
+        </div>
+        <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center" data-toggle="minimize"
+                    type="button">
+                <span class="mdi mdi-menu"></span>
+            </button>
+            <ul class="navbar-nav w-100">
+                <li class="nav-item w-100">
+                    <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                        <input class="form-control" name="name" placeholder="Tìm kiếm"
+                               style="color: white" th:value="${name}" type="text">
+                    </form>
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item dropdown d-none d-lg-block">
+                    <a aria-expanded="false" class="nav-link btn btn-success create-new-button"
+                       data-bs-toggle="dropdown" id="createbuttonDropdown"
+                       onclick="location.href = '/admin/employee/create'">+ Thêm mới</a>
+                </li>
+                <li class="nav-item dropdown border-left">
+                    <a class="nav-link count-indicator dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="notificationDropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count bg-danger"></span>
+                    </a>
+                    <div aria-labelledby="messageDropdown"
+                         class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                         th:classappend="${message} ? 'show' : ''">
+                        <h6 class="p-3 mb-0">Messages</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <img alt="image"
+                                     class="rounded-circle profile-pic"
+                                     src="https://phunugioi.com/wp-content/uploads/2020/03/anh-hot-girl-trung-quoc-cuc-tinh-y-451x600.jpg">
+                            </div>
+                            <div th:class="${message} ? 'preview-item-content message-visible' : 'preview-item-content'">
+                                <p class="preview-subject ellipsis mb-1" th:text="${message}"></p>
+                                <p class="text-muted mb-0" id="currentTime"></p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-bs-toggle="dropdown" href="#" id="profileDropdown">
+                        <div class="navbar-profile">
+                            <form class="d-flex" role="search">
+                                <div class="user-info">
+                                    <img alt=""
+                                         class="img-xs rounded-circle"
+                                         src="${customerList.avatar}">
+                                    <!--                                        <span class="mb-0 font-weight-normal text-light m-2"-->
+                                    <!--                                              th:utext="${#request.userPrincipal.getName()}"></span>-->
+                                </div>
+                                <!-- Button trigger modal -->
+                                <button class="btn btn-outline-success" type="button">
+                                    Tài khoản
+                                </button>
+                            </form>
+                        </div>
+                    </a>
+                    <div aria-labelledby="profileDropdown"
+                         class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                        <h6 class="p-3 mb-0">Profile</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-dark rounded-circle">
+                                    <i class="mdi mdi-settings text-success"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <a class="preview-subject mb-1" th:href="@{/user/detail}">Thông tin tài khoản</a>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <div class="preview-icon bg-dark rounded-circle">
+                                    <i class="mdi mdi-logout text-danger"></i>
+                                </div>
+                            </div>
+                            <div class="preview-item-content">
+                                <p class="preview-subject mb-1" data-bs-target="#logoutModal"
+                                   data-bs-toggle="modal">Đăng xuất</p>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <p class="p-3 mb-0 text-center">Cài đặt</p>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                    data-toggle="offcanvas"
+                    type="button">
+                <span class="mdi mdi-format-line-spacing"></span>
+            </button>
+        </div>
+    </nav>
+</div>
+<div th:fragment="footer">
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Codegym-C12 Group 2 - 2023</span>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div aria-hidden="true" aria-labelledby="staticBackdropLabel" class="modal fade" data-backdrop="static"
+         id="logoutModal"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Hộp thoại đăng xuất</h5>
+                    <button aria-label="Close" class="btn-close text-white" data-bs-dismiss="modal"
+                            type="button">&times;
+                    </button>
+                </div>
+                <!--            <div class="modal-body">-->
+                <!--                Bạn <span class="mb-0 text-danger font-weight-medium m-2" th:if="${#request.userPrincipal != null}"-->
+                <!--                          th:text="${#request.userPrincipal.getName()}"></span> có chắc chắn muốn đăng xuất?-->
+                <!--            </div>-->
+                <div class="modal-footer">
+                    <form action="/account/logout" method="get">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                type="button">Huỷ
+                        </button>
+                        <button class="btn btn-primary" type="submit">Đăng xuất</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/admin/assets/vendors/js/vendor.bundle.base.js}"></script>
+    <script th:src="@{/admin/assets/vendors/chart.js/Chart.min.js}"></script>
+    <script th:src="@{/admin/assets/vendors/progressbar.js/progressbar.min.js}"></script>
+    <script th:src="@{/admin/assets/vendors/jvectormap/jquery-jvectormap.min.js}"></script>
+    <script th:src="@{/admin/assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
+    <script th:src="@{/admin/assets/vendors/owl-carousel-2/owl.carousel.min.js}"></script>
+    <script th:src="@{/admin/assets/js/jquery.cookie.js}" type="text/javascript"></script>
+    <script th:src="@{/admin/assets/js/off-canvas.js}"></script>
+    <script th:src="@{/admin/assets/js/hoverable-collapse.js}"></script>
+    <script th:src="@{/admin/assets/js/misc.js}"></script>
+    <script th:src="@{/admin/assets/js/settings.js}"></script>
+    <script th:src="@{/admin/assets/js/todolist.js}"></script>
+    <script th:src="@{/admin/assets/js/dashboard.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+</div>
+
+</body>
+</html>

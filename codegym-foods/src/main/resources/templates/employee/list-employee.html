@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:import="com.example.codegymfoods.utils.NumberFormatterUtils"></th:block>
+<th:block th:import="com.example.codegymfoods.utils.DateFormatterUtils"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách</title>
+    <div th:replace="layout-list :: head-list"></div>
+</head>
+<body>
+<div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+            <a class="sidebar-brand brand-logo" href="/home/success"><img alt="logo"
+                                                                          style="height: 58px"
+                                                                          th:src="@{/admin/assets/images/logo.png}"/></a>
+            <a class="sidebar-brand brand-logo-mini" href="/home/success"><img
+                    alt="logo"
+                    th:src="@{/admin/assets/images/logo-mini.png}"/></a>
+        </div>
+        <ul class="nav">
+            <li class="nav-item profile">
+                <div class="profile-desc">
+                    <div class="profile-pic">
+                        <div class="count-indicator">
+                            <img alt=""
+                                 class="img-xs rounded-circle "
+                                 src="https://andy.codegym.vn/storage/images/avatars/db4f3d54fe0abe9c0a6dd50bdc707422.jpg">
+                            <span class="count bg-success"></span>
+                        </div>
+                        <div class="profile-name">
+                            <h3 class="mb-0 text-white m-2"
+                                th:if="${#request.userPrincipal != null}"
+                                th:text="${#request.userPrincipal.getName()}"></h3>
+                        </div>
+                        <a data-bs-toggle="dropdown" href="#" id="profile-dropdown"><i
+                                class="mdi mdi-dots-vertical"></i></a>
+                        <div aria-labelledby="profile-dropdown"
+                             class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list">
+                            <a class="dropdown-item preview-item" href="#">
+                                <div class="preview-thumbnail   ">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Thông tin tài khoản</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item" href="#">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-onepassword  text-info"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small">Đặt lại mật khẩu</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item" href="#">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-calendar-today text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject ellipsis mb-1 text-small"></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item menu-items">
+                <a class="nav-link active" onclick="location.href = '/admin/employee' ">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple"></i>
+              </span>
+                    <span class="menu-title">Nhân viên</span>
+                </a>
+            </li>
+            <li class="nav-item menu-items">
+                <a class="nav-link" onclick="location.href = '/admin/customer' ">
+              <span class="menu-icon">
+                <i class="mdi mdi-account-multiple"></i>
+              </span>
+                    <span class="menu-title">Khách hàng</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+        <!-- Import Fragment Layout Menu Navbar Left User all-->
+        <div th:replace="layout-list:: nav-top"></div>
+        <nav class="navbar p-0 fixed-top d-flex flex-row">
+            <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo-mini" href="../index.html"><img alt="logo"
+                                                                                  src="assets/images/logo-mini.png"/></a>
+            </div>
+            <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                <button class="navbar-toggler navbar-toggler align-self-center" data-toggle="minimize"
+                        type="button">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <ul class="navbar-nav w-100">
+                    <li class="nav-item w-100">
+                        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                            <input class="form-control" name="search" placeholder="Tìm kiếm"
+                                   style="color: white" th:value="${search}" type="text">
+                        </form>
+                    </li>
+                </ul>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item dropdown d-none d-lg-block">
+                        <a aria-expanded="false" class="nav-link btn btn-success create-new-button"
+                           data-bs-toggle="dropdown" id="createbuttonDropdown"
+                           onclick="location.href = '/admin/employee/create'">+ Thêm mới</a>
+                    </li>
+                    <li class="nav-item dropdown border-left">
+                        <a class="nav-link count-indicator dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           id="notificationDropdown">
+                            <i class="mdi mdi-bell"></i>
+                            <span class="count bg-danger"></span>
+                        </a>
+                        <div aria-labelledby="messageDropdown"
+                             class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                             th:classappend="${message} ? 'show' : ''">
+                            <h6 class="p-3 mb-0">Messages</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <img alt="image"
+                                         class="rounded-circle profile-pic"
+                                         src="https://phunugioi.com/wp-content/uploads/2020/03/anh-hot-girl-trung-quoc-cuc-tinh-y-451x600.jpg">
+                                </div>
+                                <div th:class="${message} ? 'preview-item-content message-visible' : 'preview-item-content'">
+                                    <p class="preview-subject ellipsis mb-1" th:text="${message}"></p>
+                                    <p class="text-muted mb-0" id="currentTime"></p>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-bs-toggle="dropdown" href="#" id="profileDropdown">
+                            <div class="navbar-profile">
+                                <form class="d-flex" role="search">
+                                    <div class="user-info">
+                                        <img alt=""
+                                             class="img-xs rounded-circle"
+                                             src="https://andy.codegym.vn/storage/images/avatars/db4f3d54fe0abe9c0a6dd50bdc707422.jpg">
+                                        <!--                                        <span class="mb-0 font-weight-normal text-light m-2"-->
+                                        <!--                                              th:utext="${#request.userPrincipal.getName()}"></span>-->
+                                    </div>
+                                    <!-- Button trigger modal -->
+                                    <button class="btn btn-outline-success" type="button">
+                                        Đăng xuất
+                                    </button>
+                                </form>
+                            </div>
+                        </a>
+                        <div aria-labelledby="profileDropdown"
+                             class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                            <h6 class="p-3 mb-0">Profile</h6>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-settings text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1">Thông tin tài khoản</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-dark rounded-circle">
+                                        <i class="mdi mdi-logout text-danger"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <p class="preview-subject mb-1" data-bs-target="#logoutModal"
+                                       data-bs-toggle="modal">Đăng xuất</p>
+                                </div>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <p class="p-3 mb-0 text-center">Cài đặt</p>
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                        data-toggle="offcanvas"
+                        type="button">
+                    <span class="mdi mdi-format-line-spacing"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row ">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Danh sách quản lý :</h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <form class="d-flex" method="get" role="search"
+                                              th:action="@{/admin/employee}">
+                                            <div class="form-group mb-3 m-2">
+                                                <label>Khu vực tìm kiếm chi tiết </label>
+                                                <input aria-label="Search" class="form-control me-2"
+                                                       name="search" placeholder="Tên chương nhân viên"
+                                                       style="color: white" th:value="${search}"
+                                                       type="search">
+                                                <label class="m-2">Trạng thái</label>
+                                                <select aria-label="Default select example" class="form-select"
+                                                        name="positionId">
+                                                    <option value="0">Tất cả</option>
+                                                    <option th:each="st : ${position}"
+                                                            th:selected="${positionId == st.getId()}"
+                                                            th:text="${st.getName()}"
+                                                            th:value="${st.getId()}">
+                                                    </option>
+                                                </select>
+                                                <button class="btn btn-outline-success m-2" type="submit">Tìm kiếm
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <thead>
+                                        <tr th:if="${!employee.isEmpty()}">
+                                            <th>STT</th>
+                                            <th>Tên nhân viên</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Email</th>
+                                            <th>Chức vụ</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Ảnh</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <div class="alert alert-info alert-dismissible"
+                                             th:if="${employee.isEmpty()}">
+                                            <button class="btn-close" data-bs-dismiss="alert"
+                                                    type="button"></button>
+                                            <strong>Quan Trọng!</strong> "Không tìm thấy dữ liệu bạn nhập trong kho
+                                            dữ
+                                            liệu của chúng tôi. Vui lòng thao tác lại."
+                                        </div>
+                                        <tr th:each="list, count : ${employee}">
+                                            <td th:text="${employee.number * employee.size + count.count}"></td>
+                                            <td th:text="${list.name}"></td>
+                                            <td th:text="${list.address}"></td>
+                                            <td th:text="${list.phoneNumber}"></td>
+                                            <td th:text="${list.email}"></td>
+                                            <td th:text="${list.position?.name}"></td>
+                                            <td
+                                                    th:text="${T(com.example.codegymfoods.utils.DateFormatterUtils).formatDate(list.dateOfBirth)}"></td>
+                                            <td>
+                                                <img alt="image" style="width: 6rem ;height: 6rem"
+                                                     th:src="${list.avatar}"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center container">
+                                        <a class="page-item btn btn-dark page-item m-2"
+                                           th:href="@{/admin/employee(page = ${employee.number - 1}, search=${search})}"
+                                           th:if="${employee.hasPrevious()}">
+                                            <i class="ti-angle-left">Trước</i>
+                                        </a>
+
+                                        <a class="page-item number btn btn-dark page-item m-1"
+                                           th:classappend="${pageNumber == employee.number + 1} ? 'active' : ''"
+                                           th:each="pageNumber : ${pageNumberList}"
+                                           th:href="@{/admin/employee(page = ${pageNumber - 1}, search=${search})}"
+                                           th:text="${pageNumber}">
+                                        </a>
+
+                                        <a class="page-item btn btn-dark page-item m-2"
+                                           th:href="@{/admin/employee(page = ${employee.number + 1}, search=${search})}"
+                                           th:if="${employee.hasNext()}">
+                                            <i class="ti-angle-right">Sau</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="layout-list::footer"></div>
+<script>
+    function upload(id, name) {
+        document.getElementById("name").innerHTML = name;
+        document.getElementById("idDelete").value = id;
+    }
+
+    var currentTime = new Date();
+    var formattedTime = currentTime.toLocaleString('vi-VN', {hour12: false});
+    document.getElementById('currentTime').innerHTML = formattedTime;
+
+    $(document).ready(function () {
+        $('body').on('mouseup', function (e) {
+            if (!$(e.target).hasClass("dropdown-menu")) {
+                $(".dropdown-menu").each(function () {
+                    $(this).removeClass("show");
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

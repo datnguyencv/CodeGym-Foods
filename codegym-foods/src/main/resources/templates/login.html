@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Đăng nhập</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+    <style>
+        body {
+            align-items: center;
+            background-color: #000;
+            display: inherit;
+            justify-content: center;
+            height: 72vh;
+            margin-top: 5vh;
+        }
+
+        .form {
+            /*display: -webkit-inline-flex;*/
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            height: 162%;
+            padding: 20px;
+            /*width: 564px;*/
+        }
+
+        .title {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 199px;
+        }
+
+        .subtitle {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .input-container {
+            height: 50px;
+            position: relative;
+            width: 100%;
+        }
+
+        .ic1 {
+            margin-top: 40px;
+        }
+
+        .ic2 {
+            margin-top: 30px;
+        }
+
+        .input {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            height: 100%;
+            outline: 0;
+            padding: 4px 20px 0;
+            width: 100%;
+        }
+
+        .cut {
+            background-color: #15172b;
+            border-radius: 10px;
+            height: 20px;
+            left: 20px;
+            position: absolute;
+            top: -20px;
+            transform: translateY(0);
+            transition: transform 200ms;
+            width: 76px;
+        }
+
+        .cut-short {
+            width: 75px;
+        }
+
+        .input:focus ~ .cut,
+        .input:not(:placeholder-shown) ~ .cut {
+            transform: translateY(8px);
+        }
+
+        .placeholder {
+            color: #65657b;
+            font-family: sans-serif;
+            left: 20px;
+            line-height: 14px;
+            pointer-events: none;
+            position: absolute;
+            transform-origin: 0 50%;
+            transition: transform 200ms, color 200ms;
+            top: 20px;
+        }
+
+        .input:focus ~ .placeholder,
+        .input:not(:placeholder-shown) ~ .placeholder {
+            transform: translateY(-30px) translateX(10px) scale(0.75);
+        }
+
+        .input:not(:placeholder-shown) ~ .placeholder {
+            color: #808097;
+        }
+
+        .input:focus ~ .placeholder {
+            color: #dc2f55;
+        }
+
+        .submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 38px;
+        / / outline: 0;
+            text-align: center;
+            width: auto;
+        }
+
+        .submit:active {
+            background-color: #06b;
+        }
+
+        .pt-2 {
+            margin-top: 28px;
+            background-color: #15172b;
+            color: #eee;
+        }
+
+
+    </style>
+    <div th:replace="layout-index::head-config"></div>
+</head>
+<body>
+
+
+<div class="form">
+    <div class="title d-flex justify-content-lg-center">Chào mừng</div>
+    <div class="subtitle d-flex justify-content-lg-center">Hãy đăng nhập tài khoản của bạn!</div>
+    <form action="/j_spring_security_check" method="post" th:object="${customerDto}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <div class="form_container">
+                        <span style="color: #00bb00" th:if="${msg} != null" th:text="${msg}"></span>
+                        <form method='POST' name='f' th:action="@{/j_spring_security}">
+                            <div class="input-container ic2">
+                                <input class="input" id="username" name="username" placeholder="Tài khoản" type="text"/>
+                                <div class="cut cut-short"></div>
+                                <label class="placeholder" for="username"></label>
+                            </div>
+                            <div class="input-container ic2">
+                                <input class="input" id="password" name="password" placeholder="Mật Khẩu"
+                                       style="margin-top: 10px;" type="password"/>
+                                <div class="cut cut-short"></div>
+                                <label class="placeholder" for="password"></label>
+                            </div>
+                            <div></div>
+                            <div style="margin: 37px 5px 10px 5px">
+                                <label style="color: whitesmoke"><input name="remember-me"
+                                                                        style="height: auto; width: auto"
+                                                                        type="checkbox"/>Nhớ mật khẩu ?</label>
+                            </div>
+                            <div class="heading_container">
+                                <h2 hidden="hidden" id="msg" th:if="${msg} != null" th:text="${msg}"></h2>
+                                <!--                        <p th:text="${msg}" id="msg" style="display: none;align-content: center"></p>-->
+                                <div style="color:red; margin:auto;"
+                                     th:if="${#request.getParameter('error') == 'true'}">
+                                    <p class="text-center">Đăng nhập thất bại.</p>
+                                    <p class="text-center">Tài khoản hoặc mật khẩu không đúng.</p>
+                                    <span hidden="hidden"
+                                          th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+                                          th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+                            </span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button class="submit" name="submit" style="margin: 0 auto" type="submit"
+                                        value="submit">
+                                    Đăng nhập
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mx-0 px-0 m-auto align-content-center bg-white">
+                        <!-- Register Now -->
+                        <div class="pt-2">
+                            <div class="row justify-content-center m-2">
+                                <h5>Bạn chưa có tài khoản?<span><a class="text-danger"
+                                                                   th:href="@{/account/register} "> Đăng ký ngay!</a></span>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4"></div>
+
+                <div class="img-box">
+                    <img alt="" th:src="@{/images/contact-img.jpg}">
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div th:replace="layout-index::navba-top"></div>
+
+<script>
+    let msg = document.getElementById("msg").innerText;
+    debugger
+    if (msg) {
+        Swal.fire({
+            title: '<div style="direction:rtl;font-size:12px;font-family:serif;font-weight:bold;">$msg</div>'.replace('$msg', msg),
+            fontSize: 1.6,
+            position: 'fixed',
+            icon: 'success',
+            // title: msg,
+            showConfirmButton: false,
+            timer: 1500,
+            style: 'w-10,h-10',
+            width: 50,
+            height: 50
+        })
+    }
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div th:replace="layout-index::footer"></div>
+
+</body>
+</html>

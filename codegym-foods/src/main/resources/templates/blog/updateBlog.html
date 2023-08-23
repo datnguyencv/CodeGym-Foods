@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Favicons -->
+    <link th:href="@{/home/assets/img/favicon.png}" rel="icon">
+    <link th:href="@{/home/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i}"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/home/assets/vendor/animate.css/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/aos/aos.css}" rel="stylesheet}">
+    <link th:href="@{/home/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/home/assets/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<!-- ======= Top Bar ======= -->
+<div th:replace="layout-index::navba-top"></div><!-- End Header -->
+<!-- End Header -->
+<div class="row">
+    <div class="col-lg-3">
+
+    </div>
+    <div style="margin-top: 110px" class="col-lg-6">
+        <h3 style="text-align: center">Cập nhật tin tức</h3>
+        <form action="/blog/updateBlog" th:object="${blogs}" method="post">
+            <div class="mb-3">
+                <input type="hidden" th:field="*{id}" class="form-control" id="exampleInputEmail112"
+                       aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Tiêu đề</label>
+                <input type="text" th:field="*{title}" class="form-control" id="exampleInputEmail1"
+                       aria-describedby="emailHelp">
+                <p th:if="${#fields.hasErrors('title')}" style="color:red" th:errors="*{title}"></p>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail2" class="form-label">Ngày đăng</label>
+                <input type="date" th:field="*{dateNow}" class="form-control" id="exampleInputEmail2"
+                       aria-describedby="emailHelp">
+                <p th:if="${#fields.hasErrors('dateNow')}" style="color:red" th:errors="*{dateNow}"></p>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail5" class="form-label">Ảnh</label>
+                <input type="text" th:field="*{imgUrl}" class="form-control" id="exampleInputEmail5"
+                       aria-describedby="emailHelp">
+                <p th:if="${#fields.hasErrors('imgUrl')}" style="color:red" th:errors="*{imgUrl}"></p>
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputEmail0" class="form-label">Nội dung</label>
+                <textarea type="text" rows="10" th:field="*{content}" class="form-control" id="exampleInputEmail0"
+                          aria-describedby="emailHelp"></textarea>
+                <p th:if="${#fields.hasErrors('content')}" style="color:red" th:errors="*{content}"></p>
+            </div>
+            <div class="input-group">
+                <label style="margin-right: 10px">Người phụ trách</label>
+                <select class="form-control" th:field="*{employee}">
+                    <option th:each="blog :${employee}" th:value="${blog.id}">
+                        <p th:text="${blog.name}"></p>
+                    </option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-3">
+
+    </div>
+</div>
+<!-- ======= Footer ======= -->
+<div th:replace="layout-index::footer"></div>
+<!-- End Footer -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+</html>

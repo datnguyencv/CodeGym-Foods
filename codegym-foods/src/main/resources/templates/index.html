@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:import="com.example.codegymfoods.utils.NumberFormatterUtils"></th:block>
+<th:block th:import="com.example.codegymfoods.utils.DateFormatterUtils"></th:block>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>CodeGym Foods</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <!--    cua modal 2 line cart-->
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">-->
+    <!--    <link th:href="@{/home/assets/css/style-modal-cart.css}" rel="stylesheet">-->
+
+    <script src="
+https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js
+"></script>
+    <!-- Favicons -->
+    <link th:href="@{/home/assets/img/favicon.png}" rel="icon">
+    <link th:href="@{/home/assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Vendor CSS Files -->
+    <link th:href="@{/home/assets/vendor/animate.css/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/aos/aos.css}" rel="stylesheet}">
+    <link th:href="@{/home/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+    <link th:href="@{/home/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link th:href="@{/home/assets/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+    <div class="container d-flex justify-content-center justify-content-md-between">
+
+        <div class="contact-info d-flex align-items-center">
+            <i class="bi bi-phone d-flex align-items-center"><span>+84 702712217</span></i>
+            <i class="bi bi-clock d-flex align-items-center ms-4"><span> 24h/7</span></i>
+        </div>
+    </div>
+</div>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+        <h1 class="logo me-auto me-lg-0"><a href="/home/success">CodeGym Foods</a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+        <nav id="navbar" class="navbar order-last order-lg-0">
+            <ul>
+                <li><a class="nav-link scrollto active" href="#hero">Trang chủ</a></li>
+                <li><a class="nav-link scrollto" href="#about">Giới thiệu</a></li>
+                <li><a class="nav-link scrollto" href="#menu">Danh mục</a></li>
+                <li><a class="nav-link scrollto" href="#specials">Tin tức</a></li>
+                <li><a class="nav-link scrollto" href="#events">Khuyến mãi</a></li>
+                <li><a class="nav-link scrollto" href="#chefs">Nhân viên</a></li>
+                <li><a class="nav-link scrollto" href="#gallery">Hình ảnh</a></li>
+
+                <li><a class="nav-link scrollto" href="#contact">Liên hệ</a></li>
+                <li class="nav-item dropdown border-left" style="list-style: none">
+                    <a class="nav-link count-indicator dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="notificationDropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count bg-danger"></span>
+                    </a>
+                    <div aria-labelledby="messageDropdown"
+                         class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                         th:classappend="${message} ? 'show' : ''">
+                        <h6 class="p-3 mb-0">Thông báo</h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <img alt="image"
+                                     class="rounded-circle profile-pic"
+                                     src="https://phunugioi.com/wp-content/uploads/2020/03/anh-hot-girl-trung-quoc-cuc-tinh-y-451x600.jpg"
+                                     width="2rem">
+                            </div>
+                            <div th:class="${message} ? 'preview-item-content message-visible' : 'preview-item-content'">
+                                <p class="preview-subject ellipsis mb-1 text-danger" style="padding-right: 1.5rem"  th:text="${message}"></p>
+                                <p class="text-muted mb-0" id="currentTime"></p>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+        <a th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" href="/cart/home" data-toggle="modal"
+           data-target="#myModal" id="id"
+           class="book-a-table-btn scrollto d-none d-lg-flex"><span><i class="bi bi-basket-fill"
+                                                                       style="font-size: 24px "></i></span>
+        </a>
+
+        <!--        <a href="/account/login" class="book-a-table-btn scrollto d-none d-lg-flex">Đăng nhập-->
+
+        <!--        </a>-->
+        <div th:if="${request != null}" class="d-flex justify-content-between align-items-center">
+            <div th:if="${#request.userPrincipal != null}">
+                <form>
+                    <div class="user-info d-flex align-items-center" th:if="${#request.userPrincipal != null}">
+                        <ul>
+                            <li class="nav-item dropdown" style="list-style: none">
+                                <a class="nav-link" data-bs-toggle="dropdown" href="#" id="profileDropdown">
+                                    <div class="navbar-profile m-2">
+                                        <form class="d-flex" role="search">
+                                            <!-- Button trigger modal -->
+                                            <button class="btn btn-outline-success" type="button" style="border: none"
+                                                    th:if="${#request.userPrincipal != null}">
+
+                                                <img th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"
+                                                     class="img-xs rounded-circle"
+                                                     th:src="${employee.avatar}"
+                                                     width="46px" alt="">
+                                                <img th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}"
+                                                     class="img-xs rounded-circle"
+                                                     th:src="${customer.avatar}"
+                                                     width="46px" alt="">
+
+                                            </button>
+                                        </form>
+                                    </div>
+                                </a>
+                                <div aria-labelledby="profileDropdown"
+                                     class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-settings text-success"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content m-1">
+                                            <a class="preview-subject mb-1 m-1 d-flex justify-content-lg-center"style="text-align: center;" th:href="@{/user/detail}">Thông tin tài
+                                                khoản</a>
+                                        </div>
+                                        <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                            <hr>
+                                             <div class="preview-item-content ">
+                                            <a class="preview-subject mb-1 m-1 d-flex justify-content-lg-center" style="text-align: center;" th:href="@{/admin/employee}">Admin</a>
+                                        </div>
+                                        </span>
+
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item preview-item">
+                                        <div class="preview-thumbnail">
+                                            <div class="preview-icon bg-dark rounded-circle">
+                                                <i class="mdi mdi-logout text-danger"></i>
+                                            </div>
+                                        </div>
+                                        <div class="preview-item-content m-1">
+                                            <p class="preview-subject mb-1 m-1 d-flex justify-content-lg-center" data-bs-toggle="modal"
+                                               data-bs-target="#staticBackdrop">Đăng xuất</p>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div th:if="${#request.userPrincipal == null}">
+                <a class="book-a-table-btn scrollto d-none d-lg-flex" onclick="location.href = '/account/login'"><span>Đăng nhập</span></a>
+            </div>
+        </div>
+        <!--        Đăng nhập-->
+
+
+    </div>
+</header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
+        <div class="row">
+            <div class="col-lg-8">
+                <h1>Chào mừng bạn đến với <span>CodeGym Foods</span></h1>
+                <h2>Thiên đường đồ ăn vặt</h2>
+
+                <div class="btns">`
+                    <a href="#menu" class="btn-menu animated fadeInUp scrollto">Sản phẩm</a>
+                    <a th:if="${#request.userPrincipal == null}" href="/account/register" class="btn-book animated fadeInUp scrollto">Đăng ký thành viên</a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in"
+                 data-aos-delay="200">
+                <a href="https://www.youtube.com/watch?v=BY6d9xw1Ivs" class="glightbox play-btn"></a>
+            </div>
+
+        </div>
+    </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row">
+                <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="about-img">
+                        <img src="/home/assets/img/about.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                    <h3>Chào mừng đến với CODEGYM FOODS - nơi bạn có thể tìm thấy những món ăn nhanh ngon lành và đầy
+                        hấp dẫn!
+                    </h3>
+                    <p class="fst-italic">
+                        Tại CODEGYM FOODS, chúng tôi đặt mục tiêu mang đến cho khách hàng những trải nghiệm ẩm thực
+                        tuyệt vời. Với sự kết hợp tinh tế giữa hương vị độc đáo và chất lượng tuyệt hảo, chúng tôi tự
+                        hào là địa điểm lý tưởng cho những người yêu thích đồ ăn nhanh.
+                    </p>
+                    <ul>
+                        <li><i class="bi bi-check-circle"></i> Thực đơn đa dạng của chúng tôi mang đến sự lựa chọn phong
+                            phú cho mọi khẩu vị. Bạn có thể thưởng thức các món sandwich thơm ngon, burger tươi ngon, mì
+                            Ý đầy đa dạng hay combo ăn nhanh đầy no nê. Chúng tôi luôn cam kết sử dụng những nguyên liệu
+                            tươi ngon và chất lượng nhất để mang đến cho bạn những bữa ăn vừa ngon miệng vừa an toàn.
+                        </li>
+                        <li><i class="bi bi-check-circle"></i> Với không gian thoải mái và phục vụ chuyên nghiệp,
+                            CODEGYM FOODS là điểm đến hoàn hảo cho các buổi gặp gỡ bạn bè, gia đình hoặc thậm chí là một
+                            bữa trưa nhanh giữa giờ làm việc.
+                        </li>
+                    </ul>
+                    <p>
+                        Hãy ghé thăm CODEGYM FOODS ngay hôm nay và khám phá thế giới đồ ăn nhanh thú vị của chúng tôi.
+                        Chúng tôi sẵn sàng chào đón và phục vụ bạn với tất cả tình yêu và đam mê về ẩm thực!
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    <section id="why-us" class="why-us">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>CodeGym Foods</h2>
+                <p>Vì sao khách hàng lựa chọn CodeGym Foods</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    <div class="box" data-aos="zoom-in" data-aos-delay="100">
+                        <span>01</span>
+                        <h4>Đa dạng sản phẩm:</h4>
+                        <p> Một cửa hàng đồ ăn vặt tốt nên cung cấp một loạt sản phẩm đa dạng để đáp ứng nhu cầu của
+                            khách hàng. Điều này bao gồm các loại snack, bánh kẹo, đồ uống và các món ăn nhẹ khác. Khi
+                            có nhiều sự lựa chọn, bạn có thể tận hưởng một trải nghiệm ẩm thực đa dạng và không bị hạn
+                            chế trong việc chọn món.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mt-lg-0">
+                    <div class="box" data-aos="zoom-in" data-aos-delay="200">
+                        <span>02</span>
+                        <h4>Chất lượng sản phẩm:</h4>
+                        <p>Một yếu tố quan trọng khác là chất lượng sản phẩm. Lựa chọn một cửa hàng đồ ăn vặt đáng tin
+                            cậy và có uy tín sẽ đảm bảo rằng bạn nhận được những sản phẩm tươi ngon, an toàn và đáng tin
+                            cậy. Điều này bao gồm việc sử dụng nguyên liệu chất lượng và tuân thủ các quy trình sản xuất
+                            và bảo quản an toàn.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-4 mt-lg-0">
+                    <div class="box" data-aos="zoom-in" data-aos-delay="300">
+                        <span>03</span>
+                        <h4>Dịch vụ và trải nghiệm khách hàng: </h4>
+                        <p>Một cửa hàng đồ ăn vặt tốt cũng nên đảm bảo rằng khách hàng nhận được dịch vụ chuyên nghiệp
+                            và trải nghiệm tốt. Điều này bao gồm thái độ phục vụ tận tâm, thời gian phục vụ nhanh chóng
+                            và sự sẵn lòng giải đáp mọi thắc mắc hay yêu cầu của khách hàng. Một cửa hàng đồ ăn vặt có
+                            trải nghiệm khách hàng tốt sẽ tạo ra một môi trường thân thiện và thoải mái cho khách
+                            hàng.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Why Us Section -->
+
+    <!-- ======= Menu Section ======= -->
+    <section id="menu" class="menu section-bg">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>Danh sách</h2>
+                <p>Đồ ăn vặt
+                    <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <a th:href="@{/creatProduct}"
+                       role="button"><i class="bi bi-patch-plus-fill"></i></a>
+                </span>
+                </p>
+            </div>
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <form class="d-flex" method="get" role="search"
+                      th:action="${#request.userPrincipal == null} ? @{/home} : @{/home/success}">
+                    <div class="form-group mb-3 m-2">
+                        <!--                                <label>Khu vực tìm kiếm sản phẩm </label>-->
+                        <div class="container" style="">
+                            <div class="row">
+                                <div class="col-4"> <input aria-label="Search" class="form-control me-2"
+                                                           name="searchProduct" placeholder="Tên sản phẩm"
+                                                           style="color: black" th:value="${searchProduct}"
+                                                           type="search">
+                                </div>
+                                <div class="col-4">
+                                    <!--                                <label class="m-2">Loại sản phẩm</label>-->
+                                    <div class="form-dark">
+                                        <select aria-label="Default select example" class="form-select"
+                                                name="productID">
+                                            <option value="0">Tất cả</option>
+                                            <option th:each="st : ${productTypeList}"
+                                                    th:selected="${productID == st.getId()}"
+                                                    th:text="${st.getName()}"
+                                                    th:value="${st.getId()}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4" style="margin-top: -7px">
+                                    <button class="btn btn-outline-success m-2" type="submit"><i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <ul id="menu-flters">
+                        <thead>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!--            <div class="input-group">-->
+            <!--                <form th:action="@{/home/find}">-->
+            <!--                <input type="search"  name="nameProduct">-->
+            <!--                <button type="submit" class="btn btn-outline-dark" style="border: none"><i class="bi bi-search-heart" style="color: whitesmoke"></i></button>-->
+            <!--                </form>-->
+            <!--            </div>-->
+
+            <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-6 menu-item " th:each="product,inter:${productList}">
+                    <img th:src="${product.picture}" class="menu-img m-4" alt="">
+                    <script>
+                        function setPrice(price) {
+                            let result = price.substring(1, 2)
+                            return
+                        }
+                    </script>
+                    <div class="menu-content">
+                        <a href="#" th:text="${product.name}"></a><span
+                            th:text="${T(com.example.codegymfoods.utils.NumberFormatterUtils).formatNumber(product.price) + 'đ'}"></span>
+                        <span th:if="${product.quantity > 0 }" >
+                        <a th:href="@{/cart/addToCart/{id}(id=${product.id})}"><i
+                                th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}"
+                                class="bi bi-bag-plus-fill"></i> </a>
+                        </span>
+                    </div>
+                    <div class="menu-ingredients" th:if="${product.quantity <=0 }">
+                        <p style="color: yellow">Đã hết hàng</p>
+                    </div>
+                    <div class="menu-ingredients">
+                        <p th:text="${product.description}"></p>
+                    </div>
+                    <div class="menu-ingredients">
+                        <p>HSD: <span
+                                th:text="${T(com.example.codegymfoods.utils.DateFormatterUtils).formatDate(product.dateExpiration)}"></span></p>
+                    </div>
+                    <div class="section-title">
+                        <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                            <a th:href="@{/updateProduct/{id}(id=${product.id})}"
+                               role="button"><i class="bi bi-gear-fill" style="color: aliceblue;font-size: 30px"></i></a>
+                            <i class="bi bi-trash-fill" th:onclick="|deleteByID(${product.id})|" type="button"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modelId" style="font-size: 30px"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right">
+                <span th:if="${#request.userPrincipal == null}">
+                    <a th:href="@{'/home/'(pagePro=${productList.number - 1})}"
+                       th:if="${productList.hasPrevious()}">Trước</a>
+                <span th:text="${productList.number + 1}"></span>/
+                <span th:text="${productList.totalPages}"></span>
+                <a th:href="@{'/home/'(pagePro=${productList.number + 1})}" th:if="${productList.hasNext()}">Sau
+                </a>
+                </span>
+                <span th:if="${#request.userPrincipal != null}">
+                     <a th:href="@{'/home/success/'(pagePro=${productList.number - 1})}"
+                        th:if="${productList.hasPrevious()}">Trước</a>
+                <span th:text="${productList.number + 1}"></span>/
+                <span th:text="${productList.totalPages}"></span>
+                <a th:href="@{'/home/success/'(pagePro=${productList.number + 1})}" th:if="${productList.hasNext()}">Sau
+                </a>
+                </span>
+            </div>
+        </div>
+    </section><!-- End Menu Section -->
+
+    <!-- ======= Specials Section ======= -->
+    <section id="specials" class="specials">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>Tin tức</h2>
+                <p>Những thông tin chia sẻ
+                    <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                        <a role="button"
+                                              th:href="@{/blog/create-form}"><i class="bi bi-patch-plus-fill"></i></a>
+                </p>
+            </div>
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <form class="d-flex" method="get" role="search"  th:action="${#request.userPrincipal == null} ? @{/home} : @{/home/success}">
+                    <div class="form-group mb-3 m-2">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-4">
+                                    <!--                        <label>Khu vực tìm kiếm bài viết </label>-->
+                                    <input aria-label="Search" class="form-control me-2"
+                                           name="searchBlog" placeholder="Tên Blog"
+                                           style="color: black" th:value="${searchBlog}"
+                                           type="search">
+                                </div>
+                                <div class="col-4" style="margin-top: -7px">
+                                    <button class="btn btn-outline-success m-2" type="submit"><i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                                <div class="col-4"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <div class="col-lg-12 d-flex justify-content-center">
+                    <ul id="menu-flters11">
+
+                        <thead>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-3">
+                    <ul class="nav nav-tabs flex-column">
+                        <li class="nav-item" th:each="item, itemIndex : ${blogList}">
+                            <a class="nav-link" th:class="${itemIndex == 0 ? 'active show' : ''}"
+                               th:data-bs-toggle="tab" th:href="'#tab-' + ${itemIndex}">[[${item.title}]]</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-9 mt-4 mt-lg-0">
+                    <div class="tab-content">
+                        <div class="tab-pane" th:each="item, itemIndex : ${blogList}"
+                             th:class="${itemIndex == 0 ? 'active show' : ''}" th:id="'tab-' + ${itemIndex}">
+                            <div class="row">
+                                <div class="col-lg-8 details order-2 order-lg-1">
+                                    <h3 th:text="${item.title}"></h3>
+                                    <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                                    <div class="dropdown">
+                                            <button class="bg-black bi-gear-fill"
+                                                    type="button"
+                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="text-black text-decoration-none dropdown-item"
+                                                   th:href="@{/blog/{id}/update(id=${item.id})}">Sửa</a></li>
+                                            <li><a th:attr="onclick=|deleteId('${item.getId()}', '${item.getTitle()}')|"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#modelId1" class="text-black dropdown-item"
+                                                   th:href="@{/delete/__${item.id}__}">Xóa</a></li>
+                                        </ul>
+                                    </div>
+                                    </span>
+
+                                    <p class="fst-italic" th:text="${item.dateNow}"></p>
+                                    <p class="fst-italic" th:text="${item.content}"></p>
+                                </div>
+                                <div class="col-lg-4 text-center order-1 order-lg-2">
+                                    <img alt="" class="img-fluid" th:src="${item.imgUrl}" style="margin-top: 12px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modelId1" tabindex="-1" role="dialog" aria-labelledby="modelTitleI1"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modelTitleId2"></h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="color: #0b0b0b">
+                        Bạn có muốn xóa tin <span class="text-danger" id="nameDelete"></span> ?
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/blog/delete" method="get">
+                            <div class="input-group">
+                                <input type="hidden" id="idDeleteBlog" name="idDeleteBlog">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Xóa</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="float: right">
+                <span th:if="${#request.userPrincipal == null}">
+                    <a th:href="@{'/home/'(pageBlog=${blogList.number - 1})}"
+                       th:if="${blogList.hasPrevious()}">Trước</a>
+                <span th:text="${blogList.number + 1}"></span>/
+                <span th:text="${blogList.totalPages}"></span>
+                <a th:href="@{'/home/'(pageBlog=${blogList.number + 1})}" th:if="${blogList.hasNext()}">Sau
+                </a>
+                </span>
+            <span th:if="${#request.userPrincipal != null}">
+                     <a th:href="@{'/home/success/'(pageBlog=${blogList.number - 1})}"
+                        th:if="${blogList.hasPrevious()}">Trước</a>
+                <span th:text="${blogList.number + 1}"></span>/
+                <span th:text="${blogList.totalPages}"></span>
+                <a th:href="@{'/home/success/'(pageBlog=${blogList.number + 1})}" th:if="${blogList.hasNext()}">Sau
+                </a>
+                </span>
+        </div>
+    </section>
+    <!-- End Specials Section -->
+
+    <!-- ======= Events Section ======= -->
+    <section id="events" class="events">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Chương trình khuyến mãi</h2>
+                <p>Các chương trình khuyến mãi tại CodeGym Foods</p>
+            </div>
+
+            <div class="events-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="row event-item">
+                            <div class="col-lg-6">
+                                <img src="/home/assets/img/event-birthday.jpg" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                <h3>Các sản phẩm bán chạy</h3>
+                                <div class="price">
+                                    <p><span>🌟 Khô Gà và Khô Mực - Chất lượng và Thơm ngon! 🌟</span></p>
+                                </div>
+                                <p class="fst-italic">
+                                    Khô Gà - Sự hòa quyện của vị thịt tươi ngon và độ giòn hấp dẫn.
+                                    Khô Mực - Điểm nhấn tinh tế trong ẩm thực đặc sản.
+                                </p>
+                                <ul>
+                                    <li><i class="bi bi-check-circled"></i> Khô Gà và Khô Mực - Sự kết hợp hoàn
+                                        hảo cho những bữa tiệc và dịp đặc biệt. Tận hưởng sự đa dạng của thịt gà
+                                        khô thơm ngon và vị đặc trưng của mực khô giòn rụm. Đây là món quà tuyệt
+                                        vời dành cho bạn bè, người thân và đối tác kinh doanh.
+                                    </li>
+                                </ul>
+                                <p>
+                                    Khô Gà và Khô Mực - Sự lựa chọn hàng đầu của người yêu ẩm thực. Với hương vị
+                                    đậm đà và mùi thơm hấp dẫn
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="row event-item">
+                            <div class="col-lg-6">
+                                <img src="/home/assets/img/event-private.jpg" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                <h3>Khuyến mãi đồ ăn vặt hot Tiktok</h3>
+                                <div class="price">
+                                    <p><span>🌟 Tận hưởng Đồ Ăn Vặt Hot TikTok - bởi Nguyễn Hà Linh! 🌟</span></p>
+                                </div>
+                                <p class="fst-italic">
+                                    🍿 Bạn yêu thích thử những món đồ ăn vặt đang hot trên TikTok? Hãy đến với
+                                    chúng tôi, Nguyễn Hà Linh, để khám phá thế giới đầy thú vị của đồ ăn vặt nổi
+                                    tiếng trên mạng xã hội hàng đầu này.
+                                </p>
+                                <ul>
+                                    <li><i class="bi bi-check-circled"></i> 🍟 Bạn có biết rằng chúng tôi chuyên
+                                        cung cấp những món đồ ăn vặt đang gây sốt trên TikTok?
+                                    </li>
+                                </ul>
+                                <p>
+                                    ⭐ Đừng quên theo dõi chúng tôi trên TikTok để cập nhật những video thú vị và
+                                    những món đồ ăn vặt hot nhất từ Nguyễn Hà Linh! ⭐️
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="row event-item">
+                            <div class="col-lg-6">
+                                <img src="/home/assets/img/event-custom.jpg" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-lg-6 pt-4 pt-lg-0 content">
+                                <h3>Riview đồ ăn vặt Trung Quốc</h3>
+                                <div class="price">
+                                    <p>
+                                        <span>🌟 Khám phá Vị Độc Đáo - Đồ Ăn Vặt Trung Quốc - Review bởi Ninh Tito! 🌟</span>
+                                    </p>
+                                </div>
+                                <p class="fst-italic">
+                                    Ninh Tito đã thử và đánh giá những món đồ ăn vặt Trung Quốc tuyệt vời tại
+                                    chúng tôi.
+                                </p>
+                                <ul>
+                                    <li><i class="bi bi-check-circled"></i> Đồ ăn vặt Trung Quốc - Bí quyết của
+                                        sự thú vị! Ninh Tito đã khám phá vô số loại bánh ngọt, như bánh hành
+                                        phi, bánh gai, và bánh bao nhân trứng thơm ngon. Hãy đến và khám phá một
+                                        thế giới mới của vị ngon đặc trưng Trung Quốc!
+                                    </li>
+                                </ul>
+                                <p>
+                                    Đánh giá tuyệt vời từ Ninh Tito về đồ ăn vặt Trung Quốc tại web bán hàng của
+                                    chúng tôi!
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section><!-- End Events Section -->
+
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Đánh giá</h2>
+                <p>Khách hàng nói gì về chúng tôi</p>
+            </div>
+
+            <div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                Đồ ăn vặt ở cửa hàng này rất ngon. Tôi thích các loại bánh tráng cuốn, khoai tây chiên
+                                và nước ngọt đặc biệt của họ. Nhân viên cũng rất thân thiện và phục vụ nhanh chóng.
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                            <img src="/home/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                            <h3>Bill Gates</h3>
+                            <h4>Ceo &amp; Founder Microsoft</h4>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                Đây là điểm đến ưa thích của tôi để thưởng thức các món ăn vặt. Bắp rang bơ ở đây vừa
+                                giòn vừa béo ngon, và các loại kem đá xay có hương vị tuyệt vời. Giá cả cũng rất hợp lý.
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                            <img src="/home/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                            <h3>Sara Wilsson</h3>
+                            <h4>Designer</h4>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                Mỗi lần ghé cửa hàng này, tôi không thể bỏ qua các món khoai lang chiên. Chúng rất thơm
+                                ngon và tẩm bột giòn tan. Đội ngũ nhân viên rất vui vẻ và luôn đảm bảo rằng tôi có một
+                                trải nghiệm tốt.
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                            <img src="/home/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                            <h3>Jena Karlis</h3>
+                            <h4>Store Owner</h4>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                Tôi đã mua đồ ăn vặt ở đây và được bất ngờ với sự đa dạng của menu. Họ có mọi thứ từ
+                                bánh mì kẹp đến bánh tráng trộn và đặc biệt là các loại nước ép tươi. Đồ ăn thơm ngon và
+                                giá cả phải chăng.
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                            <img src="/home/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                            <h3>Matt Brandon</h3>
+                            <h4>Freelancer</h4>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <p>
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                Đây là một nơi tuyệt vời để trò chuyện và thưởng thức đồ ăn vặt. Tôi thích không gian
+                                thoải mái và sự lựa chọn rộng rãi của menu. Họ cũng có các loại đồ uống nóng và lạnh để
+                                lựa chọn. Tôi đã trở thành một khách hàng thường xuyên của họ.
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </p>
+                            <img src="/home/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                            <h3>John Larson</h3>
+                            <h4>Entrepreneur</h4>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section><!-- End Testimonials Section -->
+
+    <!-- ======= Gallery Section ======= -->
+    <section id="gallery" class="gallery">
+
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2>Gallery</h2>
+                <p>Some photos from Our CodeGym Foods</p>
+            </div>
+        </div>
+
+        <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row g-0">
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-1.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-1.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-2.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-2.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-3.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-3.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-4.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-4.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-5.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-5.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-6.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-6.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-7.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-7.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="/home/assets/img/gallery/gallery-8.jpg" class="gallery-lightbox"
+                           data-gall="gallery-item">
+                            <img src="/home/assets/img/gallery/gallery-8.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Gallery Section -->
+
+    <!-- ======= Chefs Section ======= -->
+    <section id="chefs" class="chefs">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Sáng lập</h2>
+                <p>Đội ngũ sáng lập</p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="member" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="/home/assets/img/chefs/chefs-1.jpg" class="img-fluid" alt="">
+                        <div class="member-info">
+                            <div class="member-info-content">
+                                <h4>Nguyễn Tiến Đạt</h4>
+                                <span>Founder/Director</span>
+                            </div>
+                            <div class="social">
+                                <a href="https://www.facebook.com/davidng09"><i class="bi bi-facebook"></i></a>
+                                <a href="https://www.facebook.com/davidng09"><i class="bi bi-instagram"></i></a>
+                                <a href="https://www.facebook.com/davidng09"><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="member" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="/home/assets/img/chefs/chefs-2.jpg" class="img-fluid" alt="">
+                        <div class="member-info">
+                            <div class="member-info-content">
+                                <h4>Ngô Tiến Hưng</h4>
+                                <span>Founder/Director</span>
+                            </div>
+                            <div class="social">
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="member" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="/home/assets/img/chefs/chefs-3.jpg" class="img-fluid" alt="">
+                        <div class="member-info">
+                            <div class="member-info-content">
+                                <h4>Châu Hoàng Tố Trinh</h4>
+                                <span>Founder/Director</span>
+                            </div>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="member" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="/home/assets/img/chefs/chefs-4.jpg" class="img-fluid" alt="">
+                        <div class="member-info">
+                            <div class="member-info-content">
+                                <h4>Nguyễn Hữu Huy</h4>
+                                <span>Founder/Director</span>
+                            </div>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Chefs Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Liên hệ</h2>
+                <p>Thông tin liên hệ</p>
+            </div>
+        </div>
+
+        <div data-aos="fade-up">
+            <iframe style="border:0; width: 100%; height: 350px;"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.2065620400426!2d108.22781327180523!3d16.05476730586307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314219a486b7f699%3A0xae6269b629a63e82!2zQ29kZUd5bSDEkMOgIE7hurVuZw!5e0!3m2!1sen!2s!4v1684899875884!5m2!1sen!2s"
+                    frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="container" data-aos="fade-up">
+
+            <div class="row mt-5">
+
+                <div class="col-lg-4">
+                    <div class="info">
+                        <div class="address">
+                            <i class="bi bi-geo-alt"></i>
+                            <h4>Vị trí:</h4>
+                            <p>280 Đ. Trần Hưng Đạo, An Hải Tây, Sơn Trà, Đà Nẵng 550000, Vietnam</p>
+                        </div>
+
+                        <div class="open-hours">
+                            <i class="bi bi-clock"></i>
+                            <h4>Giờ mở cửa:</h4>
+                            <p>
+                                24/7
+                            </p>
+                        </div>
+
+                        <div class="email">
+                            <i class="bi bi-envelope"></i>
+                            <h4>Email:</h4>
+                            <p>codegym-foods@codegym.com.vn</p>
+                        </div>
+
+                        <div class="phone">
+                            <i class="bi bi-phone"></i>
+                            <h4>Call:</h4>
+                            <p>+84 702 712 217</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-8 mt-5 mt-lg-0">
+
+                    <form action="/home/forms/contact.php" class="php-email-form" method="post" role="form">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input class="form-control" id="name-mes" name="name" placeholder="Your Name"
+                                       required type="text">
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input class="form-control" id="email-c" name="email" placeholder="Your Email"
+                                       required type="email">
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input class="form-control" id="subject" name="subject" placeholder="Subject" required
+                                   type="text">
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" placeholder="Message" required
+                                      rows="8"></textarea>
+                        </div>
+                        <div class="my-3">
+                            <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit">Send Message</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-info">
+                        <h3>CodeGym Foodsly</h3>
+                        <p>
+                            280 Đ. Trần Hưng Đạo, An Hải Tây, Sơn Trà <br>
+                            Đà Nẵng 550000, Vietnam<br><br>
+                            <strong>Số điện thoại:</strong> +84 702 712 217<br>
+                            <strong>Email:</strong> codegym-foods@codegym.com.vn<br>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Liên kết hữu ích</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Trang chủ</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Giới thiệu</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 footer-links">
+
+                </div>
+
+                <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <h4>Bản tin của chúng tôi</h4>
+                    <p>Đăng ký để nhận những thông báo sớm nhất các chương trình của chúng tôi</p>
+                    <form action="" method="post">
+                        <input type="email" name="email"><input type="submit" value="Subscribe">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>CodeGym Foods - Group 2 -C1222G1</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/CodeGym Foodsly-CodeGym Foods-template/ -->
+            Designed by Group 2
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/home/assets/vendor/aos/aos.js}"></script>
+<script th:src="@{/home/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/home/assets/vendor/glightbox/js/glightbox.min.js}"></script>
+<script th:src="@{/home/assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+<script th:src="@{/home/assets/vendor/php-email-form/validate.js}"></script>
+<script th:src="@{/home/assets/vendor/swiper/swiper-bundle.min.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/home/assets/js/main.js}"></script>
+
+
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modelTitleId"></h4>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span style="color: red"> Bạn có muốn xóa sản phẩm này không ?</span>
+            </div>
+            <div class="modal-footer">
+                <form action="/deleteProduct">
+                    <input type="hidden" th:id="idDelete" th:name="id">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-danger">Xóa</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteByID(id) {
+        document.getElementById("idDelete").value = id;
+    }
+</script>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Hôp thoại đăng xuất</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span style="color: black">Bạn</span><span class="mb-0 text-danger font-weight-medium m-2"
+                                                           th:if="${#request.userPrincipal != null}"
+                                                           th:text="${#request.userPrincipal.getName()}"></span><span
+                    style="color: black">có chắc chắn muốn đăng xuất?</span>
+            </div>
+            <div class="modal-footer">
+                <form action="/account/logout" method="get">
+                    <button type="submit" class="btn btn-primary">Đăng xuất</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<script>
+    function deleteId(id, name) {
+        document.getElementById("idDeleteBlog").value = id;
+        document.getElementById("nameDelete").innerText = name;
+    }
+
+    $(document).ready(function () {
+        $('body').on('mouseup', function (e) {
+            if (!$(e.target).hasClass("dropdown-menu")) {
+                $(".dropdown-menu").each(function () {
+                    $(this).removeClass("show");
+                });
+            }
+        });
+    });
+
+    var currentTime = new Date();
+    var formattedTime = currentTime.toLocaleString('vi-VN', {hour12: false});
+    document.getElementById('currentTime').innerHTML = formattedTime;
+</script>
+</body>
+
+</html>

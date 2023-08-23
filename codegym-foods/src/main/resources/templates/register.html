@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đăng ký</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            align-items: center;
+            background-color: #000;
+            display: inherit;
+            justify-content: center;
+            height: 72vh;
+            margin-top: 5vh;
+        }
+
+        .form {
+            /*display: -webkit-inline-flex;*/
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            height: 162%;
+            padding: 20px;
+            /*width: 564px;*/
+        }
+
+        .title {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 199px;
+        }
+
+        .subtitle {
+            color: #eee;
+            font-family: sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .input-container {
+            height: 50px;
+            position: relative;
+            width: 100%;
+        }
+
+        .ic1 {
+            margin-top: 40px;
+        }
+
+        .ic2 {
+            margin-top: 30px;
+        }
+
+        .input {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            height: 100%;
+            outline: 0;
+            padding: 4px 20px 0;
+            width: 100%;
+        }
+
+        .cut {
+            background-color: #15172b;
+            border-radius: 10px;
+            height: 20px;
+            left: 20px;
+            position: absolute;
+            top: -20px;
+            transform: translateY(0);
+            transition: transform 200ms;
+            width: 76px;
+        }
+
+        .cut-short {
+            width: 75px;
+        }
+
+        .input:focus ~ .cut,
+        .input:not(:placeholder-shown) ~ .cut {
+            transform: translateY(8px);
+        }
+
+        .placeholder {
+            color: #65657b;
+            font-family: sans-serif;
+            left: 20px;
+            line-height: 14px;
+            pointer-events: none;
+            position: absolute;
+            transform-origin: 0 50%;
+            transition: transform 200ms, color 200ms;
+            top: 20px;
+        }
+
+        .input:focus ~ .placeholder,
+        .input:not(:placeholder-shown) ~ .placeholder {
+            transform: translateY(-30px) translateX(10px) scale(0.75);
+        }
+
+        .input:not(:placeholder-shown) ~ .placeholder {
+            color: #808097;
+        }
+
+        .input:focus ~ .placeholder {
+            color: #dc2f55;
+        }
+
+        .submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 38px;
+        / / outline: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .submit:active {
+            background-color: #06b;
+        }
+
+        .pt-2 {
+            margin-top: 28px;
+            background-color: #15172b;
+            color: #eee;
+        }
+
+
+    </style>
+    <div th:replace="layout-index::head-config"></div>
+
+</head>
+<body>
+<div class="form">
+    <div class="title d-flex justify-content-lg-center">Chào mừng</div>
+    <div class="subtitle d-flex justify-content-lg-center">Hãy tạo tài khoản của bạn!</div>
+    <form th:action="@{/account/register}" method="post" th:object="${customerDto}">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-12" style="margin:-10px">
+                    <div class="input-container ic1">
+                        <input th:field="*{name}" id="name" class="input" type="text" placeholder=" "/>
+                        <div class="cut"></div>
+                        <label for="name" class="placeholder">Tên</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                    </div>
+                    <div class="input-container ic2">
+                        <input th:field="*{dateOfBirth}" id="dateOfBirth" class="input" type="date" placeholder=" "/>
+                        <div class="cut"></div>
+                        <label for="dateOfBirth" class="placeholder">Ngày Sinh</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('dateOfBirth')}"
+                           th:errors="*{dateOfBirth}"></p>
+                    </div>
+                    <div class="input-container ic2">
+                        <input th:field="*{address}" id="address" class="input" type="text" placeholder=" "/>
+                        <div class="cut cut-short"></div>
+                        <label for="address" class="placeholder">Địa chỉ</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+                    </div>
+                    <div class="input-container ic2">
+                        <input th:field="*{email}" id="email" class="input" type="text" placeholder=" "/>
+                        <div class="cut cut-short"></div>
+                        <label for="email" class="placeholder">Email</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                        <span style="color: red" th:text="${message}"></span>
+                    </div>
+
+                    <div class="input-container ic2">
+                        <input th:field="*{phoneNumber}" id="phoneNumber" class="input" type="text" placeholder=" "/>
+                        <div class="cut cut-short"></div>
+                        <label for="phoneNumber" class="placeholder">Số điện thoại</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('phoneNumber')}"
+                           th:errors="*{phoneNumber}"></p>
+                        <span style="color: red" th:text="${message1}"></span>
+                    </div>
+                    <div class="input-container ic2">
+                        <input class="input" id="avatar" placeholder=" " th:field="*{avatar}" type="text"/>
+                        <div class="cut cut-short"></div>
+                        <label class="placeholder" for="avatar">Ảnh đại diện</label>
+                        <p style="color:red" th:errors="*{avatar}" th:if="${#fields.hasErrors('avatar')}"></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="input-container ic2">
+                        <input th:field="*{appUser.userName}" id="username" class="input" type="text" placeholder=" "/>
+                        <div class="cut cut-short"></div>
+                        <label for="username" class="placeholder">Tên đăng nhâp</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('appUser.userName')}"
+                           th:errors="*{appUser.userName}"></p>
+                        <span style="color: red" th:text="${message2}"></span>
+                    </div>
+                    <div class="input-container ic2">
+                        <input id="password" th:field="*{appUser.encrytedPassword}" class="input" type="password"
+                               placeholder=" "/>
+                        <div class="cut cut-short"></div>
+                        <label for="password" class="placeholder">Mật khẩu</label>
+                        <p style="color: red" th:if="${#fields.hasErrors('appUser.encrytedPassword')}"
+                           th:errors="*{appUser.encrytedPassword}"></p>
+                    </div>
+                    <div class="input-container ic2">
+                        <input class="input" id="confirmPassword" placeholder=" " type="password"/>
+                        <div class="cut cut-short"></div>
+                        <label class="placeholder" for="confirmPassword">Nhập lại mật khẩu</label>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-lg-center">
+                    <button id="button" name="submit" type="submit" style="width: 10%" value="submit" class="submit">
+                        Đăng ký
+                    </button>
+                </div>
+                <div class="d-flex justify-content-lg-center mt-2">
+                    <h5>Bạn đã có tài khoản?<span><a class="text-danger"
+                                                     th:href="@{/account/login} "> Đăng nhập </a></span>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<div th:replace="layout-index::navba-top"></div>
+
+<script>
+    document.querySelector("#button").onclick = function () {
+        const password = document.querySelector("#password").value;
+        const confirmPassword = document.querySelector("#confirmPassword").value;
+        if (password != confirmPassword) {
+            // alert("Mật khẩu xác thực không khớp")
+            document.getElementById("error-text").innerText = "Mật khẩu xác thực không khớp, vui lòng nhập lại"
+            return false
+        }
+    }
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<div th:replace="layout-index::footer"></div>
+
+</body>
+</html>
